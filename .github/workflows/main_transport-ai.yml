@@ -31,7 +31,13 @@ jobs:
       - name: Ensure necessary files are included  
         run: |  
           mkdir -p deploy  
-          cp -r TransportAI/InvoiceValidator deploy/  
+          cp -r InvoiceValidator deploy/  
+          cp -r static deploy/  
+          cp -r staticfiles deploy/  
+          cp db.sqlite3 deploy/  
+          cp manage.py deploy/  
+          cp requirements.txt deploy/  
+          cp startup.sh deploy/  
           cp -r venv deploy/  
           if [ -f .env ]; then cp .env deploy/; fi  
   
