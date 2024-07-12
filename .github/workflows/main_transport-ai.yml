@@ -32,7 +32,7 @@ jobs:
           shopt -s extglob
           cp -r !(deploy|venv) deploy/
           cp -r venv deploy/
-          cp -r .env deploy/  # if you use an .env file for environment variables
+          if [ -f .env ]; then cp .env deploy/; fi
 
       - name: Zip artifact for deployment
         run: zip -r release.zip deploy/
@@ -62,7 +62,6 @@ jobs:
       - name: Set up Azure Web App for deployment
         run: |
           cd deploy
-          mv venv/bin/activate /home/site/wwwroot
           mv . /home/site/wwwroot
 
       - name: 'Deploy to Azure Web App'
