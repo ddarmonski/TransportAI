@@ -59,11 +59,6 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
-      - name: Set up Azure Web App for deployment
-        run: |
-          mkdir -p /home/site/wwwroot
-          mv deploy/* /home/site/wwwroot
-
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
@@ -71,4 +66,4 @@ jobs:
           app-name: 'transport-ai'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_42E9015F33EF416896C7CF7C757D2B39 }}
-          package: release.zip
+          package: deploy
