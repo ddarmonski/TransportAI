@@ -73,4 +73,4 @@ jobs:
           app-name: 'transport-ai'  
           slot-name: 'Production'  
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_42E9015F33EF416896C7CF7C757D2B39 }}  
-          package: deploy  
+          package: deploy
