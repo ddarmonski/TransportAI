@@ -61,8 +61,8 @@ jobs:
 
       - name: Set up Azure Web App for deployment
         run: |
-          cd deploy
-          mv . /home/site/wwwroot
+          mkdir -p /home/site/wwwroot
+          mv deploy/* /home/site/wwwroot
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
