@@ -26,11 +26,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Collect static files
+        run: |
+          source venv/bin/activate
+          python manage.py collectstatic --noinput
+
       - name: Ensure necessary files are included
         run: |
           mkdir -p deploy
           shopt -s extglob
-          cp -r !(deploy|venv) deploy/
+          cp -r !(deploy|venv|.github) deploy/
           cp -r venv deploy/
           if [ -f .env ]; then cp .env deploy/; fi
 
@@ -59,6 +64,12 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
+      - name: Run migrations
+        run: |
+          cd deploy
+          source venv/bin/activate
+          python manage.py migrate
+
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
@@ -67,3 +78,4 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_42E9015F33EF416896C7CF7C757D2B39 }}
           package: deploy
+          startup-command: gunicorn --workers 3 --bind 0.0.0.0:8000 InvoiceValidator.wsgi:application
