@@ -29,10 +29,11 @@ jobs:
       - name: Ensure necessary files are included
         run: |
           mkdir -p deploy
-          cp -r * deploy/
-          cp -r .env deploy/  # if you use an .env file for environment variables
+          shopt -s extglob
+          cp -r !(deploy|venv) deploy/
           cp -r venv deploy/
-        
+          cp -r .env deploy/  # if you use an .env file for environment variables
+
       - name: Zip artifact for deployment
         run: zip -r release.zip deploy/
 
