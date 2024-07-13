@@ -50,7 +50,9 @@ jobs:
           name: python-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip -d .  # Ensure unzipping in the root of wwwroot
+        run: |
+          unzip release.zip -d /home/site/wwwroot/
+          ls -la /home/site/wwwroot/
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
