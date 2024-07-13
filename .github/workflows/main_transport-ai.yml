@@ -21,10 +21,8 @@ jobs:
           source venv/bin/activate
           pip install -r requirements.txt
 
-      - name: Ensure necessary files are included
-        run: |
-          if [ -f .env ]; then cp .env ./InvoiceValidator; fi
-          zip -r release.zip ./InvoiceValidator
+      - name: Zip artifact for deployment
+        run: zip -r release.zip InvoiceValidator/  # Adjusted to only include necessary project directory
 
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v3
@@ -46,7 +44,7 @@ jobs:
           name: python-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip -d deploy/
+        run: unzip release.zip -d .  # Ensure unzipping in the root of wwwroot
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
@@ -55,4 +53,4 @@ jobs:
           app-name: 'transport-ai'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_42E9015F33EF416896C7CF7C757D2B39 }}
-          package: deploy/
+          package: .
