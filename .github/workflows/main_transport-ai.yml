@@ -21,8 +21,14 @@ jobs:
           source venv/bin/activate
           pip install -r requirements.txt
 
+      - name: Check directory structure before zipping
+        run: ls -R InvoiceValidator/
+
       - name: Zip artifact for deployment
-        run: zip -r release.zip InvoiceValidator/  # Adjusted to only include necessary project directory
+        run: zip -r release.zip InvoiceValidator/  # This should include the nested InvoiceValidator directory
+
+      - name: Check contents of the zip
+        run: unzip -l release.zip
 
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v3
