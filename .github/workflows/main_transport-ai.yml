@@ -51,7 +51,7 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: |
-          unzip release.zip -d /home/site/wwwroot/
+          unzip -o release.zip -d /home/site/wwwroot/
           ls -la /home/site/wwwroot/
 
       - name: 'Deploy to Azure Web App'
